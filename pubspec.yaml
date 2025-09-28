@@ -39,6 +39,7 @@ dependencies:
   http:
   firebase_ai:
   flutter_markdown:
+  provider: ^6.1.5+1
 
 
 dev_dependencies:
