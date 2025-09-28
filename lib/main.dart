@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_ai_app/pages/account_screen.dart';
+import 'package:flutter_ai_app/pages/login_screen.dart';
+import 'package:flutter_ai_app/pages/signup_screen.dart';
 import 'package:flutter_ai_app/providers/account_provider.dart';
+import 'package:flutter_ai_app/providers/login_provider.dart';
+import 'package:flutter_ai_app/providers/signup_provider.dart';
 import 'package:provider/provider.dart';
 import 'pages/recipe_generator.dart';
 import 'firebase_options.dart';
@@ -19,6 +23,8 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AccountProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => SignupProvider()),
       ],
       child: const MyApp(),
     ),
@@ -37,7 +43,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const AccountScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const AccountScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/signup': (context) => const SignupScreen(),
+      },
     );
   }
 }
