@@ -6,22 +6,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AccountProvider extends ChangeNotifier {
 
   static final FirebaseAuth _auth = FirebaseAuth.instance;
-  static final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
-  static bool isInitialize = false;
 
-  // final GoogleSignIn _googleSignIn = GoogleSignIn(
-  //   scopes: [
-  //     'email',
-  //     'https://www.googleapis.com/auth/userinfo.profile',
-  //   ],
-  // );
+  static final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+
+  static bool isInitialize = false;
 
   static Future<void> initSignIn() async {
 
     if (!isInitialize) {
       await _googleSignIn.initialize(
         serverClientId:
-        '690075272845-eijbmlsqkbdpso1pp4sv4gsnu5a064lr.apps.googleusercontent.com',
+        '690075272845-4hen5u7fud8pl8ta6f1ht1d9jsc0krbo.apps.googleusercontent.com',
       );
     }
     isInitialize = true;
@@ -29,7 +24,7 @@ class AccountProvider extends ChangeNotifier {
 
   static Future<UserCredential?> signInWithGoogle() async {
     try {
-      initSignIn();
+      await initSignIn();
       final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
       final idToken = googleUser.authentication.idToken;
       final authorizationClient = googleUser.authorizationClient;
