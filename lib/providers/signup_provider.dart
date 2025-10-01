@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ai_app/utils/app_shared_preference.dart';
 
 class SignupProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -24,6 +25,7 @@ class SignupProvider with ChangeNotifier {
         email: emailController.text,
         password: passwordController.text,
       );
+      await AppSharedPreference.setLoggedIn(true);
       _isLoading = false;
       notifyListeners();
       return true;

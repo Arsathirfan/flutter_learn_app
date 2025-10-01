@@ -6,6 +6,7 @@ import 'package:flutter_ai_app/pages/signup_screen.dart';
 import 'package:flutter_ai_app/providers/account_provider.dart';
 import 'package:flutter_ai_app/providers/login_provider.dart';
 import 'package:flutter_ai_app/providers/signup_provider.dart';
+import 'package:flutter_ai_app/utils/app_shared_preference.dart';
 import 'package:provider/provider.dart';
 import 'pages/recipe_generator.dart';
 import 'firebase_options.dart';
@@ -15,9 +16,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await AppSharedPreference.init();
 
   runApp(
     MultiProvider(
@@ -43,9 +44,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/',
+      initialRoute: AppSharedPreference.getLoggedIn() ? '/home' : '/',
       routes: {
         '/': (context) => const AccountScreen(),
+        '/home': (context) => const RecipeGeneratorScreen(),
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
       },

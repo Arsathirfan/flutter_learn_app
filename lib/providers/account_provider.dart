@@ -1,3 +1,4 @@
+import 'package:flutter_ai_app/utils/app_shared_preference.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +62,7 @@ class AccountProvider extends ChangeNotifier {
       //       'createdAt': FieldValue.serverTimestamp(),
       //     });
       //   }
-
+      await AppSharedPreference.setLoggedIn(true);
       return userCredential;
     } catch (e) {
       print('Error: $e');
@@ -73,6 +74,8 @@ class AccountProvider extends ChangeNotifier {
     try {
       await _googleSignIn.signOut();
       await _auth.signOut();
+      await AppSharedPreference.setLoggedIn(false);
+      await AppSharedPreference.clear();
     } catch (e) {
       print('Error signing out: $e');
       throw e;
