@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_app/providers/login_provider.dart';
+import 'package:flutter_ai_app/utils/routes.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -98,7 +99,10 @@ class LoginScreen extends StatelessWidget {
                             final success = await provider
                                 .signInWithEmailAndPassword();
                             if (success) {
-                              Navigator.pop(context);
+                              Navigator.pushReplacementNamed(
+                                context,
+                                Routes.home,
+                              );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -130,7 +134,7 @@ class LoginScreen extends StatelessWidget {
                       const Text("Don't have an account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/signup');
+                          Navigator.pushNamed(context, Routes.signup);
                         },
                         child: const Text('Sign Up'),
                       ),
