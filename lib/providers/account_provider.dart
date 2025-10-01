@@ -28,8 +28,7 @@ class AccountProvider extends ChangeNotifier {
       final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
       final idToken = googleUser.authentication.idToken;
       final authorizationClient = googleUser.authorizationClient;
-      GoogleSignInClientAuthorization? authorization = await authorizationClient
-          .authorizationForScopes(['email', 'profile']);
+      GoogleSignInClientAuthorization? authorization = await authorizationClient.authorizationForScopes(['email', 'profile']);
       final accessToken = authorization?.accessToken;
       if (accessToken == null) {
         final authorization2 = await authorizationClient.authorizationForScopes(
@@ -44,8 +43,7 @@ class AccountProvider extends ChangeNotifier {
         accessToken: accessToken,
         idToken: idToken,
       );
-      final UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithCredential(credential);
+      final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
       final User? user = userCredential.user;
 
       // if (user != null) {
