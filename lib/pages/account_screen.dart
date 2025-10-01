@@ -155,6 +155,7 @@ class SignedInScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (user.photoURL != null)
             CircleAvatar(
               radius: 50,
               backgroundImage: NetworkImage(user.photoURL ?? ''),
