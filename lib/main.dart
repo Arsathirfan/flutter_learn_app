@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_ai_app/providers/account_provider.dart';
-import 'package:flutter_ai_app/providers/login_provider.dart';
-import 'package:flutter_ai_app/providers/signup_provider.dart';
 import 'package:flutter_ai_app/utils/app_shared_preference.dart';
 import 'package:flutter_ai_app/utils/routes.dart';
 import 'package:provider/provider.dart';
@@ -17,12 +15,8 @@ void main() async {
   await AppSharedPreference.init();
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AccountProvider()),
-        ChangeNotifierProvider(create: (_) => LoginProvider()),
-        ChangeNotifierProvider(create: (_) => SignupProvider()),
-      ],
+    ChangeNotifierProvider(
+      create: (_) => AccountProvider(),
       child: const MyApp(),
     ),
   );
