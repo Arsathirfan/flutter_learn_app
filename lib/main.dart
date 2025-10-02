@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_ai_app/providers/account_provider.dart';
-import 'package:flutter_ai_app/providers/forgot_password_provider.dart';
 import 'package:flutter_ai_app/utils/app_shared_preference.dart';
 import 'package:flutter_ai_app/utils/routes.dart';
 import 'package:provider/provider.dart';

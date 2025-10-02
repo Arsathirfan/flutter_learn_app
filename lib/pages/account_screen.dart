@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_app/providers/account_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_ai_app/pages/login_screen.dart';
 import 'package:flutter_ai_app/pages/signup_screen.dart';
 
