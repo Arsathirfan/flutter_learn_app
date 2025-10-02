@@ -19,7 +19,6 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AccountProvider()),
-        ChangeNotifierProvider(create: (_) => ForgotPasswordProvider()),
       ],
       child: const MyApp(),
     ),
