@@ -124,9 +124,12 @@ class SignupScreen extends StatelessWidget {
                                 final success = await provider
                                     .signUpWithEmailAndPassword();
                                 if (success) {
-                                  Navigator.pushReplacementNamed(
-                                    context,
-                                    Routes.home,
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        provider.error ?? 'A verification email has been sent.',
+                                      ),
+                                    ),
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(

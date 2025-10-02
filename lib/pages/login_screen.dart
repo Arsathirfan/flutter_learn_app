@@ -114,6 +114,15 @@ class LoginScreen extends StatelessWidget {
                                       content: Text(
                                         provider.error ?? 'An error occurred',
                                       ),
+                                      action: provider.error ==
+                                              'Please verify your email before logging in.'
+                                          ? SnackBarAction(
+                                              label: 'Resend',
+                                              onPressed: () {
+                                                provider.resendVerificationEmail();
+                                              },
+                                            )
+                                          : null,
                                     ),
                                   );
                                 }

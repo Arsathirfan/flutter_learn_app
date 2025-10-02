@@ -20,30 +20,42 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+
+      User? user = userCredential.user;
+      await user?.reload();
+      user = _auth.currentUser;
+
+      if (user != null && !user.emailVerified) {
+        _error = 'Please verify your email before logging in.';
+        await _auth.signOut();
+        _isLoading = false;
+        notifyListeners();
+        return false;
+      }
+
       await AppSharedPreference.setLoggedIn(true);
       _isLoading = false;
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        _error = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        _error = 'Wrong password provided for that user.';
-      } else {
-        _error = 'An error occurred. Please try again later.';
-      }
+      _error = e.message;
       _isLoading = false;
       notifyListeners();
       return false;
+    }
+  }
+
+  Future<void> resendVerificationEmail() async {
+    try {
+      User? user = _auth.currentUser;
+      await user?.sendEmailVerification();
     } catch (e) {
-      _error = 'An error occurred. Please try again later.';
-      _isLoading = false;
+      _error = e.toString();
       notifyListeners();
-      return false;
     }
   }
 

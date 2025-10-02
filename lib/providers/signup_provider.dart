@@ -21,13 +21,25 @@ class SignupProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
-      await AppSharedPreference.setLoggedIn(true);
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        await user.sendEmailVerification();
+        _error = 'A verification email has been sent to your email address.';
+      }
+
+      // Don’t set logged in yet — wait until verification
+      await AppSharedPreference.setLoggedIn(false);
+
       _isLoading = false;
       notifyListeners();
+
+      // Return true but show "Check your email" UI
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -45,6 +57,13 @@ class SignupProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
       return false;
+    }
+  }
+
+  Future<void> resendVerificationEmail() async {
+    User? user = _auth.currentUser;
+    if (user != null && !user.emailVerified) {
+      await user.sendEmailVerification();
     }
   }
 
