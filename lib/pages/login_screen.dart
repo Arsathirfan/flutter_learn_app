@@ -112,30 +112,25 @@ class LoginScreen extends StatelessWidget {
                                 } else {
                                   if (provider.error ==
                                       'Please verify your email before logging in.') {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Email Not Verified'),
-                                          content: const Text(
-                                              'Please verify your email address to log in.'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              child: const Text('Resend'),
-                                              onPressed: () {
-                                                provider.resendVerificationEmail(context);
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            TextButton(
-                                              child: const Text('OK'),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
+                                    CustomDialog.show(
+                                      context,
+                                      'Email Not Verified',
+                                      'Please verify your email address to log in.',
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('Resend'),
+                                          onPressed: () {
+                                            provider.resendVerificationEmail(context);
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text('OK'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
                                     );
                                   } else {
                                     CustomDialog.show(
