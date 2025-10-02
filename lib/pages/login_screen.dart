@@ -88,7 +88,13 @@ class LoginScreen extends StatelessWidget {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 16),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.forgotPassword);
+                          },
+                          child: const Text('Forgot Password?'),
+                        ),
                         if (provider.isLoading)
                           const Center(child: CircularProgressIndicator())
                         else
