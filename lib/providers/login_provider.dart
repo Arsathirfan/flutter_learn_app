@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_app/utils/app_shared_preference.dart';
+import 'package:flutter_ai_app/utils/custom_dialog.dart';
 
 class LoginProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,6 +13,7 @@ class LoginProvider with ChangeNotifier {
   String? _error;
 
   bool get isLoading => _isLoading;
+
   String? get error => _error;
 
   Future<bool> signInWithEmailAndPassword() async {
@@ -49,20 +51,16 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  Future<void> resendVerificationEmail() async {
+  Future<void> resendVerificationEmail(BuildContext context) async {
     try {
       User? user = _auth.currentUser;
       await user?.sendEmailVerification();
+      CustomDialog.show(context, 'Verification Email Sent',
+          'A new verification email has been sent to your email address.');
     } catch (e) {
-      _error = e.toString();
+      CustomDialog.show(context, 'Error', e.toString());
       notifyListeners();
     }
   }
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 }

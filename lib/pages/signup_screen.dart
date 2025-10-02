@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_app/providers/signup_provider.dart';
+import 'package:flutter_ai_app/utils/custom_dialog.dart';
 import 'package:flutter_ai_app/utils/routes.dart';
 import 'package:provider/provider.dart';
 
@@ -124,20 +125,16 @@ class SignupScreen extends StatelessWidget {
                                 final success = await provider
                                     .signUpWithEmailAndPassword();
                                 if (success) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        provider.error ?? 'A verification email has been sent.',
-                                      ),
-                                    ),
+                                  CustomDialog.show(
+                                    context,
+                                    'Verification Email Sent',
+                                    provider.error ?? 'A verification email has been sent to your email address.',
                                   );
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        provider.error ?? 'An error occurred',
-                                      ),
-                                    ),
+                                  CustomDialog.show(
+                                    context,
+                                    'Sign Up Failed',
+                                    provider.error ?? 'An error occurred',
                                   );
                                 }
                               }

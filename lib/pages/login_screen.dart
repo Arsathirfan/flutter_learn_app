@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_app/providers/login_provider.dart';
+import 'package:flutter_ai_app/utils/custom_dialog.dart';
 import 'package:flutter_ai_app/utils/routes.dart';
 import 'package:provider/provider.dart';
 
@@ -109,22 +110,40 @@ class LoginScreen extends StatelessWidget {
                                     Routes.home,
                                   );
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        provider.error ?? 'An error occurred',
-                                      ),
-                                      action: provider.error ==
-                                              'Please verify your email before logging in.'
-                                          ? SnackBarAction(
-                                              label: 'Resend',
+                                  if (provider.error ==
+                                      'Please verify your email before logging in.') {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Email Not Verified'),
+                                          content: const Text(
+                                              'Please verify your email address to log in.'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('Resend'),
                                               onPressed: () {
-                                                provider.resendVerificationEmail();
+                                                provider.resendVerificationEmail(context);
+                                                Navigator.of(context).pop();
                                               },
-                                            )
-                                          : null,
-                                    ),
-                                  );
+                                            ),
+                                            TextButton(
+                                              child: const Text('OK'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    CustomDialog.show(
+                                      context,
+                                      'Login Failed',
+                                      provider.error ?? 'An error occurred',
+                                    );
+                                  }
                                 }
                               }
                             },
