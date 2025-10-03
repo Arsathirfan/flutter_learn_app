@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_app/utils/app_shared_preference.dart';
@@ -29,23 +30,24 @@ class LoginProvider with ChangeNotifier {
 
       User? user = userCredential.user;
       await user?.reload();
-      user = _auth.currentUser;
 
       if (user != null && !user.emailVerified) {
         _error = 'Please verify your email before logging in.';
         await _auth.signOut();
-        _isLoading = false;
         notifyListeners();
         return false;
       }
 
+      // Update Firestore that email is verified
+      await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+        'isEmailVerified': true,
+        'lastLogin': FieldValue.serverTimestamp(),
+      });
+
       await AppSharedPreference.setLoggedIn(true);
-      _isLoading = false;
-      notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
-      _error = e.message;
-      _isLoading = false;
+      _error = e.message ?? 'Login failed';
       notifyListeners();
       return false;
     }

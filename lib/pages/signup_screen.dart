@@ -49,6 +49,25 @@ class SignupScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
+                          controller: provider.nameController,
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your name';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
                           controller: provider.emailController,
                           decoration: InputDecoration(
                             labelText: 'Email',
@@ -122,8 +141,7 @@ class SignupScreen extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () async {
                               if (provider.formKey.currentState!.validate()) {
-                                final success = await provider
-                                    .signUpWithEmailAndPassword();
+                                final success = await provider.signUpWithEmailAndPassword();
                                 if (success) {
                                   CustomDialog.show(
                                     context,
